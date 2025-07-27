@@ -12,6 +12,6 @@ export default defineConfig({
       reporter: ['text', 'json', 'html']
     },
     // Environment configuration
-    environment: 'node'
+    environment: 'jsdom'
   }
 })
