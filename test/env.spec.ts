@@ -72,7 +72,7 @@ describe('env', () => {
       // isServer 和 isClient 应该是常量，不会在运行时改变
       const initialServer = isServer
       const initialClient = isClient
-      
+
       // 再次访问应该得到相同的值
       expect(isServer).toBe(initialServer)
       expect(isClient).toBe(initialClient)

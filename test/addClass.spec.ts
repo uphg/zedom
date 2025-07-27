@@ -51,7 +51,7 @@ describe('addClass', () => {
     // 测试不会因为空字符串报错，并且只添加有效的类名
     addClass(element, 'valid-class')
     expect(element.className.trim()).toBe('valid-class')
-    
+
     // 测试有效的类名还能正常添加
     addClass(element, 'another-class')
     expect(element.className).toContain('valid-class')
@@ -88,7 +88,7 @@ describe('addClass', () => {
   it('应该去重复的类名', () => {
     element.className = 'existing-class'
     addClass(element, 'existing-class', 'new-class')
-    
+
     // 计算 existing-class 出现的次数
     const matches = element.className.match(/existing-class/g)
     expect(matches?.length).toBe(1)

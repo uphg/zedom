@@ -11,27 +11,27 @@ describe('addAfter', () => {
   beforeEach(() => {
     container = document.createElement('div')
     container.id = 'container'
-    
+
     element1 = document.createElement('div')
     element1.id = 'element1'
     element1.textContent = 'Element 1'
-    
+
     element2 = document.createElement('div')
     element2.id = 'element2'
     element2.textContent = 'Element 2'
-    
+
     element3 = document.createElement('div')
     element3.id = 'element3'
     element3.textContent = 'Element 3'
-    
+
     newElement = document.createElement('span')
     newElement.id = 'newElement'
     newElement.textContent = 'New Element'
-    
+
     container.appendChild(element1)
     container.appendChild(element2)
     container.appendChild(element3)
-    
+
     document.body.appendChild(container)
   })
 
@@ -43,7 +43,7 @@ describe('addAfter', () => {
 
   it('应该能在元素后面插入新元素', () => {
     addAfter(element2, newElement)
-    
+
     expect(container.children.length).toBe(4)
     expect(container.children[0]).toBe(element1)
     expect(container.children[1]).toBe(element2)
@@ -53,7 +53,7 @@ describe('addAfter', () => {
 
   it('应该能在第一个元素后插入', () => {
     addAfter(element1, newElement)
-    
+
     expect(container.children.length).toBe(4)
     expect(container.children[0]).toBe(element1)
     expect(container.children[1]).toBe(newElement)
@@ -63,7 +63,7 @@ describe('addAfter', () => {
 
   it('应该能在最后一个元素后插入', () => {
     addAfter(element3, newElement)
-    
+
     expect(container.children.length).toBe(4)
     expect(container.children[0]).toBe(element1)
     expect(container.children[1]).toBe(element2)
@@ -74,7 +74,7 @@ describe('addAfter', () => {
   it('应该能插入文本节点', () => {
     const textNode = document.createTextNode('Text Node')
     addAfter(element2, textNode)
-    
+
     expect(container.childNodes.length).toBe(4)
     expect(container.childNodes[0]).toBe(element1)
     expect(container.childNodes[1]).toBe(element2)
@@ -85,7 +85,7 @@ describe('addAfter', () => {
   it('应该移动已存在的元素', () => {
     const existingElement = element1 // 移动 element1 到 element2 后面
     addAfter(element2, existingElement)
-    
+
     expect(container.children.length).toBe(3) // 总数不变
     expect(container.children[0]).toBe(element2)
     expect(container.children[1]).toBe(existingElement) // element1 现在在 element2 后面
@@ -113,9 +113,9 @@ describe('addAfter', () => {
     const singleContainer = document.createElement('div')
     const singleChild = document.createElement('span')
     singleContainer.appendChild(singleChild)
-    
+
     addAfter(singleChild, newElement)
-    
+
     expect(singleContainer.children.length).toBe(2)
     expect(singleContainer.children[0]).toBe(singleChild)
     expect(singleContainer.children[1]).toBe(newElement)
@@ -124,10 +124,10 @@ describe('addAfter', () => {
   it('应该能连续插入多个元素', () => {
     const newElement2 = document.createElement('span')
     newElement2.textContent = 'New Element 2'
-    
+
     addAfter(element2, newElement)
     addAfter(newElement, newElement2)
-    
+
     expect(container.children.length).toBe(5)
     expect(container.children[0]).toBe(element1)
     expect(container.children[1]).toBe(element2)
@@ -144,9 +144,9 @@ describe('addAfter', () => {
     fragmentChild2.textContent = 'Fragment Child 2'
     fragment.appendChild(fragmentChild1)
     fragment.appendChild(fragmentChild2)
-    
+
     addAfter(element2, fragment)
-    
+
     expect(container.children.length).toBe(5)
     expect(container.children[0]).toBe(element1)
     expect(container.children[1]).toBe(element2)

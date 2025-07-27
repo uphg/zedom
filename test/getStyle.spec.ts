@@ -64,7 +64,7 @@ describe('getStyle', () => {
   it('应该处理 font 相关样式', () => {
     element.style.fontSize = '16px'
     element.style.fontWeight = 'bold'
-    
+
     expect(getStyle(element, 'fontSize')).toBe('16px')
     expect(getStyle(element, 'font-size')).toBe('16px')
     expect(getStyle(element, 'fontWeight')).toBe('bold')
@@ -80,7 +80,7 @@ describe('getStyle', () => {
     element.style.position = 'absolute'
     element.style.top = '10px'
     element.style.left = '20px'
-    
+
     expect(getStyle(element, 'position')).toBe('absolute')
     expect(getStyle(element, 'top')).toBe('10px')
     expect(getStyle(element, 'left')).toBe('20px')

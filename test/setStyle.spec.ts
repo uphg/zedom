@@ -26,7 +26,7 @@ describe('setStyle', () => {
       fontSize: '16px',
       margin: '10px'
     })
-    
+
     expect(element.style.color).toBe('blue')
     expect(element.style.fontSize).toBe('16px')
     expect(element.style.margin).toBe('10px')
@@ -40,7 +40,7 @@ describe('setStyle', () => {
   it('应该能设置 font 相关样式', () => {
     setStyle(element, 'font-size', '18px')
     setStyle(element, 'font-weight', 'bold')
-    
+
     expect(element.style.fontSize).toBe('18px')
     expect(element.style.fontWeight).toBe('bold')
   })
@@ -49,7 +49,7 @@ describe('setStyle', () => {
     setStyle(element, 'border-width', '2px')
     setStyle(element, 'border-style', 'solid')
     setStyle(element, 'border-color', 'black')
-    
+
     expect(element.style.borderWidth).toBe('2px')
     expect(element.style.borderStyle).toBe('solid')
     expect(element.style.borderColor).toBe('black')
@@ -62,12 +62,12 @@ describe('setStyle', () => {
 
   it('应该能设置 position 相关样式', () => {
     setStyle(element, {
-      position: 'absolute',
-      top: '10px',
-      left: '20px',
+      'position': 'absolute',
+      'top': '10px',
+      'left': '20px',
       'z-index': '100'
     })
-    
+
     expect(element.style.position).toBe('absolute')
     expect(element.style.top).toBe('10px')
     expect(element.style.left).toBe('20px')
@@ -85,7 +85,7 @@ describe('setStyle', () => {
       height: '200px',
       opacity: '0.5'
     })
-    
+
     expect(element.style.width).toBe('100px')
     expect(element.style.height).toBe('200px')
     expect(element.style.opacity).toBe('0.5')
@@ -102,29 +102,29 @@ describe('setStyle', () => {
       margin: '10px 20px',
       padding: '5px 15px 10px 20px'
     })
-    
+
     // 先设置基础值，再测试覆盖
     expect(element.style.margin).toBe('10px 20px')
     expect(element.style.padding).toBe('5px 15px 10px 20px')
-    
+
     // 测试覆盖特定的值
     setStyle(element, {
       'margin-top': '30px',
       'padding-left': '25px'
     })
-    
+
     expect(element.style.marginTop).toBe('30px')
     expect(element.style.paddingLeft).toBe('25px')
   })
 
   it('应该能处理 flex 相关样式', () => {
     setStyle(element, {
-      display: 'flex',
+      'display': 'flex',
       'flex-direction': 'column',
       'justify-content': 'center',
       'align-items': 'center'
     })
-    
+
     expect(element.style.display).toBe('flex')
     expect(element.style.flexDirection).toBe('column')
     expect(element.style.justifyContent).toBe('center')
@@ -133,11 +133,11 @@ describe('setStyle', () => {
 
   it('应该能处理 grid 相关样式', () => {
     setStyle(element, {
-      display: 'grid',
+      'display': 'grid',
       'grid-template-columns': '1fr 1fr 1fr',
       'grid-gap': '10px'
     })
-    
+
     expect(element.style.display).toBe('grid')
     expect(element.style.gridTemplateColumns).toBe('1fr 1fr 1fr')
     expect(element.style.gridGap).toBe('10px')

@@ -11,28 +11,28 @@ describe('getIndex', () => {
   beforeEach(() => {
     container = document.createElement('div')
     container.id = 'container'
-    
+
     element1 = document.createElement('div')
     element1.id = 'element1'
     element1.textContent = 'Element 1'
-    
+
     element2 = document.createElement('span')
     element2.id = 'element2'
     element2.textContent = 'Element 2'
-    
+
     element3 = document.createElement('p')
     element3.id = 'element3'
     element3.textContent = 'Element 3'
-    
+
     element4 = document.createElement('em')
     element4.id = 'element4'
     element4.textContent = 'Element 4'
-    
+
     container.appendChild(element1)
     container.appendChild(element2)
     container.appendChild(element3)
     container.appendChild(element4)
-    
+
     document.body.appendChild(container)
   })
 
@@ -88,17 +88,17 @@ describe('getIndex', () => {
     const singleContainer = document.createElement('div')
     const singleChild = document.createElement('span')
     singleContainer.appendChild(singleChild)
-    
+
     const index = getIndex(singleChild)
     expect(index).toBe(0)
   })
 
   it('应该在动态添加元素后返回正确的索引', () => {
     const newElement = document.createElement('strong')
-    
+
     // 在 element2 后面插入新元素
     container.insertBefore(newElement, element3)
-    
+
     expect(getIndex(element1)).toBe(0)
     expect(getIndex(element2)).toBe(1)
     expect(getIndex(newElement)).toBe(2)
@@ -109,11 +109,11 @@ describe('getIndex', () => {
   it('应该在移除元素后返回正确的索引', () => {
     // 移除第二个元素
     container.removeChild(element2)
-    
+
     expect(getIndex(element1)).toBe(0)
     expect(getIndex(element3)).toBe(1)
     expect(getIndex(element4)).toBe(2)
-    
+
     // 已移除的元素应该返回 -1
     expect(getIndex(element2)).toBe(-1)
   })
@@ -121,7 +121,7 @@ describe('getIndex', () => {
   it('应该在重新排序元素后返回正确的索引', () => {
     // 将第一个元素移动到最后
     container.appendChild(element1)
-    
+
     expect(getIndex(element2)).toBe(0)
     expect(getIndex(element3)).toBe(1)
     expect(getIndex(element4)).toBe(2)
@@ -133,10 +133,10 @@ describe('getIndex', () => {
     const nestedElement = document.createElement('span')
     nestedContainer.appendChild(nestedElement)
     container.appendChild(nestedContainer)
-    
+
     // 嵌套元素在其父容器中的索引
     expect(getIndex(nestedElement)).toBe(0)
-    
+
     // 嵌套容器在主容器中的索引
     expect(getIndex(nestedContainer)).toBe(4)
   })
@@ -145,11 +145,11 @@ describe('getIndex', () => {
     const mixedContainer = document.createElement('div')
     const childElement1 = document.createElement('span')
     const childElement2 = document.createElement('div')
-    
+
     mixedContainer.appendChild(childElement1)
     mixedContainer.appendChild(document.createTextNode('Text Node'))
     mixedContainer.appendChild(childElement2)
-    
+
     // 只计算元素节点，不计算文本节点
     expect(getIndex(childElement1)).toBe(0)
     expect(getIndex(childElement2)).toBe(1)
@@ -160,7 +160,7 @@ describe('getIndex', () => {
     const index1 = getIndex(element2)
     const index2 = getIndex(element2)
     const index3 = getIndex(element2)
-    
+
     expect(index1).toBe(index2)
     expect(index2).toBe(index3)
     expect(index1).toBe(1)
@@ -168,10 +168,10 @@ describe('getIndex', () => {
 
   it('应该正确处理连续的索引', () => {
     const indices = [element1, element2, element3, element4].map(getIndex)
-    
+
     expect(indices).toEqual([0, 1, 2, 3])
     expect(indices).toHaveLength(4)
-    
+
     // 检查是否是连续的索引
     for (let i = 0; i < indices.length; i++) {
       expect(indices[i]).toBe(i)
