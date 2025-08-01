@@ -37,7 +37,7 @@ describe('prepend', () => {
     }
   })
 
-  it('应该能在空容器中添加单个子元素', () => {
+  it('should add single child element to empty container', () => {
     prepend(parent, child1)
 
     expect(parent.children.length).toBe(1)
@@ -45,7 +45,7 @@ describe('prepend', () => {
     expect(child1.parentNode).toBe(parent)
   })
 
-  it('应该能在已有子元素前添加新元素', () => {
+  it('should add new element before existing child elements', () => {
     parent.appendChild(existingChild)
     prepend(parent, child1)
 
@@ -54,42 +54,42 @@ describe('prepend', () => {
     expect(parent.children[1]).toBe(existingChild)
   })
 
-  it('应该能添加多个子元素到开头', () => {
+  it('should add multiple child elements to beginning', () => {
     parent.appendChild(existingChild)
     prepend(parent, child1, child2, child3)
 
     expect(parent.children.length).toBe(4)
-    // prepend 是逐个插入到开头，所以最后一个参数出现在最前面
+    // prepend inserts one by one to the beginning, so the last parameter appears at the front
     expect(parent.children[0]).toBe(child3)
     expect(parent.children[1]).toBe(child2)
     expect(parent.children[2]).toBe(child1)
     expect(parent.children[3]).toBe(existingChild)
   })
 
-  it('应该能添加数组形式的子元素', () => {
+  it('should add child elements in array format', () => {
     parent.appendChild(existingChild)
     prepend(parent, [child1, child2])
 
     expect(parent.children.length).toBe(3)
-    // 数组中的元素按顺序插入，最后插入的在最前面
+    // elements in array are inserted in order, last inserted appears at the front
     expect(parent.children[0]).toBe(child2)
     expect(parent.children[1]).toBe(child1)
     expect(parent.children[2]).toBe(existingChild)
   })
 
-  it('应该能混合添加单个元素和数组', () => {
+  it('should add mixed single elements and arrays', () => {
     parent.appendChild(existingChild)
     prepend(parent, child1, [child2, child3])
 
     expect(parent.children.length).toBe(4)
-    // 先 child1，然后 [child2, child3]，最后插入的在最前面
+    // first child1, then [child2, child3], last inserted appears at the front
     expect(parent.children[0]).toBe(child3)
     expect(parent.children[1]).toBe(child2)
     expect(parent.children[2]).toBe(child1)
     expect(parent.children[3]).toBe(existingChild)
   })
 
-  it('应该保持添加元素的顺序', () => {
+  it('should maintain order of added elements', () => {
     prepend(parent, child3, child1, child2)
 
     // 最后的参数在最前面
@@ -98,7 +98,7 @@ describe('prepend', () => {
     expect(parent.children[2]).toBe(child3)
   })
 
-  it('应该忽略 null 和 undefined 元素', () => {
+  it('should ignore null and undefined elements', () => {
     parent.appendChild(existingChild)
     prepend(parent, child1, null, child2, undefined)
 
@@ -109,12 +109,12 @@ describe('prepend', () => {
     expect(parent.children[2]).toBe(existingChild)
   })
 
-  it('应该返回父元素', () => {
+  it('should return parent element', () => {
     const result = prepend(parent, child1)
     expect(result).toBe(parent)
   })
 
-  it('应该能添加文本节点', () => {
+  it('should add text node', () => {
     const textNode = document.createTextNode('Hello World')
     const existingTextNode = document.createTextNode('Existing Text')
     parent.appendChild(existingTextNode)
@@ -126,7 +126,7 @@ describe('prepend', () => {
     expect(parent.childNodes[1]).toBe(existingTextNode)
   })
 
-  it('应该能添加文档片段', () => {
+  it('should add document fragment', () => {
     const fragment = document.createDocumentFragment()
     fragment.appendChild(child1)
     fragment.appendChild(child2)
@@ -141,7 +141,7 @@ describe('prepend', () => {
     expect(fragment.children.length).toBe(0)
   })
 
-  it('应该能处理数组', () => {
+  it('should handle arrays', () => {
     parent.appendChild(existingChild)
     prepend(parent, [child1, child2, child3])
 
@@ -153,7 +153,7 @@ describe('prepend', () => {
     expect(parent.children[3]).toBe(existingChild)
   })
 
-  it('应该能移动已存在于 DOM 中的元素', () => {
+  it('should move elements already existing in DOM', () => {
     const anotherParent = document.createElement('div')
     document.body.appendChild(anotherParent)
     anotherParent.appendChild(child1)
@@ -173,7 +173,7 @@ describe('prepend', () => {
     document.body.removeChild(anotherParent)
   })
 
-  it('应该能在多次调用时保持正确的顺序', () => {
+  it('should maintain correct order with multiple calls', () => {
     parent.appendChild(existingChild)
 
     prepend(parent, child1)

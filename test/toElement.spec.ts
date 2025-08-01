@@ -1,21 +1,21 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, afterEach } from 'vitest'
 import toElement from '../src/toElement'
 
 describe('toElement', () => {
   afterEach(() => {
-    // 清理可能添加到 DOM 中的元素
+    // clean up elements that might be added to DOM
     const testElements = document.querySelectorAll('[data-test="true"]')
     testElements.forEach(el => el.remove())
   })
 
-  it('应该能从简单的 HTML 字符串创建元素', () => {
+  it('should create element from simple HTML string', () => {
     const element = toElement('<div>Hello World</div>')
 
     expect(element.tagName.toLowerCase()).toBe('div')
     expect(element.textContent).toBe('Hello World')
   })
 
-  it('应该能创建带属性的元素', () => {
+  it('should create element with attributes', () => {
     const element = toElement('<div id="test" class="container">Content</div>')
 
     expect(element.tagName.toLowerCase()).toBe('div')
@@ -24,7 +24,7 @@ describe('toElement', () => {
     expect(element.textContent).toBe('Content')
   })
 
-  it('应该能创建嵌套结构的元素', () => {
+  it('should create element with nested structure', () => {
     const element = toElement('<div><span>Child 1</span><p>Child 2</p></div>')
 
     expect(element.tagName.toLowerCase()).toBe('div')
@@ -35,7 +35,7 @@ describe('toElement', () => {
     expect(element.children[1].textContent).toBe('Child 2')
   })
 
-  it('应该能创建不同类型的元素', () => {
+  it('should create different types of elements', () => {
     const button = toElement('<button type="submit">Submit</button>')
     const input = toElement('<input type="text" placeholder="Enter text">')
     const img = toElement('<img src="test.jpg" alt="Test Image">')
@@ -53,20 +53,20 @@ describe('toElement', () => {
     expect(img.getAttribute('alt')).toBe('Test Image')
   })
 
-  it('应该能处理包含特殊字符的内容', () => {
+  it('should handle content with special characters', () => {
     const element = toElement('<div>&lt;script&gt;alert("test")&lt;/script&gt;</div>')
 
     expect(element.textContent).toBe('<script>alert("test")</script>')
   })
 
-  it('应该能处理空白字符', () => {
+  it('should handle whitespace characters', () => {
     const element = toElement('  <div>  Content  </div>  ')
 
     expect(element.tagName.toLowerCase()).toBe('div')
     expect(element.textContent).toBe('  Content  ')
   })
 
-  it('应该能添加子元素', () => {
+  it('should add child elements', () => {
     const child1 = document.createElement('span')
     child1.textContent = 'Child 1'
     const child2 = document.createElement('em')
@@ -81,7 +81,7 @@ describe('toElement', () => {
     expect(element.children[1]).toBe(child2)
   })
 
-  it('应该能处理 null 或 undefined 的 innerHTML', () => {
+  it('should handle null or undefined innerHTML', () => {
     expect(() => {
       toElement(null as any)
     }).not.toThrow()
@@ -91,7 +91,7 @@ describe('toElement', () => {
     }).not.toThrow()
   })
 
-  it('应该能创建表格相关元素', () => {
+  it('should create table-related elements', () => {
     const table = toElement('<table><tr><td>Cell</td></tr></table>')
 
     expect(table.tagName.toLowerCase()).toBe('table')
@@ -99,7 +99,7 @@ describe('toElement', () => {
     expect(table.querySelector('td')?.textContent).toBe('Cell')
   })
 
-  it('应该能创建表单元素', () => {
+  it('should create form elements', () => {
     const form = toElement(`
       <form>
         <input type="text" name="username">
@@ -118,7 +118,7 @@ describe('toElement', () => {
     expect(form.querySelectorAll('option').length).toBe(2)
   })
 
-  it('应该能处理 SVG 元素', () => {
+  it('should handle SVG elements', () => {
     const svg = toElement('<svg><circle r="10"></circle></svg>')
 
     expect(svg.tagName.toLowerCase()).toBe('svg')
@@ -126,7 +126,7 @@ describe('toElement', () => {
     expect(svg.querySelector('circle')?.getAttribute('r')).toBe('10')
   })
 
-  it('应该能处理自闭合标签', () => {
+  it('should handle self-closing tags', () => {
     const img = toElement('<img src="test.jpg" alt="Test" />')
     const input = toElement('<input type="text" />')
     const br = toElement('<br />')
@@ -140,8 +140,8 @@ describe('toElement', () => {
     expect(br.tagName.toLowerCase()).toBe('br')
   })
 
-  it('应该返回第一个子元素', () => {
-    // 当模板包含多个顶级元素时，应该返回第一个
+  it('should return first child element', () => {
+    // when template contains multiple top-level elements, should return the first one
     const element = toElement('<div>First</div><span>Second</span>')
 
     expect(element.tagName.toLowerCase()).toBe('div')

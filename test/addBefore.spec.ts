@@ -41,7 +41,7 @@ describe('addBefore', () => {
     }
   })
 
-  it('应该能在元素前面插入新元素', () => {
+  it('should insert new element before target element', () => {
     addBefore(element2, newElement)
 
     expect(container.children.length).toBe(4)
@@ -51,7 +51,7 @@ describe('addBefore', () => {
     expect(container.children[3]).toBe(element3)
   })
 
-  it('应该能在第一个元素前插入', () => {
+  it('should insert before first element', () => {
     addBefore(element1, newElement)
 
     expect(container.children.length).toBe(4)
@@ -61,7 +61,7 @@ describe('addBefore', () => {
     expect(container.children[3]).toBe(element3)
   })
 
-  it('应该能在最后一个元素前插入', () => {
+  it('should insert before last element', () => {
     addBefore(element3, newElement)
 
     expect(container.children.length).toBe(4)
@@ -71,7 +71,7 @@ describe('addBefore', () => {
     expect(container.children[3]).toBe(element3)
   })
 
-  it('应该能插入文本节点', () => {
+  it('should insert text node', () => {
     const textNode = document.createTextNode('Text Node')
     addBefore(element2, textNode)
 
@@ -82,34 +82,34 @@ describe('addBefore', () => {
     expect(container.childNodes[3]).toBe(element3)
   })
 
-  it('应该移动已存在的元素', () => {
-    const existingElement = element3 // 移动 element3 到 element1 前面
+  it('should move existing element', () => {
+    const existingElement = element3 // move element3 before element1
     addBefore(element1, existingElement)
 
-    expect(container.children.length).toBe(3) // 总数不变
-    expect(container.children[0]).toBe(existingElement) // element3 现在在最前面
+    expect(container.children.length).toBe(3) // total count unchanged
+    expect(container.children[0]).toBe(existingElement) // element3 is now at the front
     expect(container.children[1]).toBe(element1)
     expect(container.children[2]).toBe(element2)
   })
 
-  it('应该处理 null 元素', () => {
+  it('should handle null element', () => {
     expect(() => addBefore(null as any, newElement)).not.toThrow()
-    // 新元素不应该被插入到任何地方
+    // new element should not be inserted anywhere
     expect(newElement.parentNode).toBeNull()
   })
 
-  it('应该处理没有父节点的元素', () => {
+  it('should handle element without parent node', () => {
     const orphanElement = document.createElement('div')
     expect(() => addBefore(orphanElement, newElement)).not.toThrow()
     expect(newElement.parentNode).toBeNull()
   })
 
-  it('应该返回插入的结果', () => {
+  it('should return the inserted element', () => {
     const result = addBefore(element2, newElement)
     expect(result).toBe(newElement)
   })
 
-  it('应该能处理单个子元素的情况', () => {
+  it('should handle single child element case', () => {
     const singleContainer = document.createElement('div')
     const singleChild = document.createElement('span')
     singleContainer.appendChild(singleChild)
@@ -121,7 +121,7 @@ describe('addBefore', () => {
     expect(singleContainer.children[1]).toBe(singleChild)
   })
 
-  it('应该能连续插入多个元素', () => {
+  it('should insert multiple elements consecutively', () => {
     const newElement2 = document.createElement('span')
     newElement2.textContent = 'New Element 2'
 
@@ -136,7 +136,7 @@ describe('addBefore', () => {
     expect(container.children[4]).toBe(element3)
   })
 
-  it('应该能插入文档片段', () => {
+  it('should insert document fragment', () => {
     const fragment = document.createDocumentFragment()
     const fragmentChild1 = document.createElement('span')
     const fragmentChild2 = document.createElement('em')

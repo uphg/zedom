@@ -36,7 +36,7 @@ describe('removeChildren', () => {
     }
   })
 
-  it('应该移除所有子元素', () => {
+  it('should remove all child elements', () => {
     expect(container.children.length).toBe(3)
 
     removeChildren(container)
@@ -46,8 +46,8 @@ describe('removeChildren', () => {
     expect(container.innerHTML).toBe('')
   })
 
-  it('应该移除所有类型的子节点', () => {
-    // 添加文本节点和注释节点
+  it('should remove all types of child nodes', () => {
+    // add text node and comment node
     const textNode = document.createTextNode('Text Node')
     const commentNode = document.createComment('Comment Node')
 
@@ -61,26 +61,26 @@ describe('removeChildren', () => {
     expect(container.childNodes.length).toBe(0)
   })
 
-  it('应该处理空容器', () => {
+  it('should handle empty container', () => {
     const emptyContainer = document.createElement('div')
 
     expect(emptyContainer.children.length).toBe(0)
 
-    // 不应该抛出错误
+    // should not throw error
     expect(() => removeChildren(emptyContainer)).not.toThrow()
 
     expect(emptyContainer.children.length).toBe(0)
   })
 
-  it('应该处理 null 元素', () => {
+  it('should handle null element', () => {
     expect(() => removeChildren(null as any)).not.toThrow()
   })
 
-  it('应该处理 undefined 元素', () => {
+  it('should handle undefined element', () => {
     expect(() => removeChildren(undefined as any)).not.toThrow()
   })
 
-  it('应该移除嵌套的子元素', () => {
+  it('should remove nested child elements', () => {
     const nestedContainer = document.createElement('div')
     const nestedChild1 = document.createElement('span')
     const nestedChild2 = document.createElement('em')
@@ -95,15 +95,15 @@ describe('removeChildren', () => {
     removeChildren(container)
 
     expect(container.children.length).toBe(0)
-    // 嵌套容器本身被移除，所以它的子元素也不存在了
+    // nested container itself is removed, so its child elements no longer exist
   })
 
-  it('应该移除具有事件监听器的元素', () => {
+  it('should remove elements with event listeners', () => {
     const eventElement = document.createElement('button')
-    let clicked = false
+    let _clicked = false
 
     eventElement.addEventListener('click', () => {
-      clicked = true
+      _clicked = true
     })
 
     container.appendChild(eventElement)
@@ -114,13 +114,13 @@ describe('removeChildren', () => {
 
     expect(container.children.length).toBe(0)
 
-    // 注意：在 jsdom 中，事件监听器在元素被移除后仍然可能有效
-    // 这取决于具体的实现，所以我们调整测试期望
+    // note: in jsdom, event listeners may still be effective after element removal
+    // this depends on specific implementation, so we adjust test expectations
     eventElement.click()
-    // 不对事件触发结果做具体断言，因为这依赖于具体的 DOM 实现
+    // don't make specific assertions about event trigger results, as this depends on specific DOM implementation
   })
 
-  it('应该保持父元素的其他属性不变', () => {
+  it('should keep other properties of parent element unchanged', () => {
     container.className = 'test-container'
     container.setAttribute('data-test', 'value')
 
@@ -134,19 +134,19 @@ describe('removeChildren', () => {
     expect(container.children.length).toBe(0)
   })
 
-  it('应该处理多次调用', () => {
+  it('should handle multiple calls', () => {
     expect(container.children.length).toBe(3)
 
     removeChildren(container)
     expect(container.children.length).toBe(0)
 
-    // 第二次调用不应该抛出错误
+    // second call should not throw error
     expect(() => removeChildren(container)).not.toThrow()
     expect(container.children.length).toBe(0)
   })
 
-  it('应该移除复杂的 DOM 结构', () => {
-    // 创建复杂的嵌套结构
+  it('should remove complex DOM structure', () => {
+    // create complex nested structure
     const table = document.createElement('table')
     const tbody = document.createElement('tbody')
     const tr1 = document.createElement('tr')
@@ -179,7 +179,7 @@ describe('removeChildren', () => {
     expect(container.children.length).toBe(0)
   })
 
-  it('应该处理包含表单元素的容器', () => {
+  it('should handle container with form elements', () => {
     const form = document.createElement('form')
     const input = document.createElement('input')
     const select = document.createElement('select')
@@ -200,14 +200,14 @@ describe('removeChildren', () => {
     expect(container.children.length).toBe(0)
   })
 
-  it('应该释放被移除元素的内存引用', () => {
+  it('should release memory references of removed elements', () => {
     const childElement = container.firstElementChild
     expect(childElement).toBeTruthy()
     expect(childElement?.parentNode).toBe(container)
 
     removeChildren(container)
 
-    // 被移除的元素应该没有父节点了
+    // removed element should have no parent node
     expect(childElement?.parentNode).toBeNull()
   })
 })

@@ -8,25 +8,25 @@ describe('hasClass', () => {
     element = document.createElement('div')
   })
 
-  it('应该返回 false 当元素为 null 时', () => {
+  it('should return false when element is null', () => {
     expect(hasClass(null as any, 'test-class')).toBe(false)
   })
 
-  it('应该返回 false 当类名为空时', () => {
+  it('should return false when class name is empty', () => {
     expect(hasClass(element, '')).toBe(false)
   })
 
-  it('应该返回 true 当元素有指定类名时', () => {
+  it('should return true when element has specified class name', () => {
     element.className = 'test-class'
     expect(hasClass(element, 'test-class')).toBe(true)
   })
 
-  it('应该返回 false 当元素没有指定类名时', () => {
+  it('should return false when element does not have specified class name', () => {
     element.className = 'other-class'
     expect(hasClass(element, 'test-class')).toBe(false)
   })
 
-  it('应该正确检查多个类名中的某一个', () => {
+  it('should correctly check for one of multiple class names', () => {
     element.className = 'class1 test-class class2'
     expect(hasClass(element, 'test-class')).toBe(true)
     expect(hasClass(element, 'class1')).toBe(true)
@@ -34,18 +34,18 @@ describe('hasClass', () => {
     expect(hasClass(element, 'non-existent')).toBe(false)
   })
 
-  it('应该处理前后有空格的类名', () => {
+  it('should handle class names with leading and trailing spaces', () => {
     element.className = ' test-class '
     expect(hasClass(element, 'test-class')).toBe(true)
   })
 
-  it('应该处理类名之间有多个空格的情况', () => {
+  it('should handle multiple spaces between class names', () => {
     element.className = 'class1   test-class   class2'
     expect(hasClass(element, 'test-class')).toBe(true)
   })
 
-  it('应该在没有 classList 支持时正常工作', () => {
-    // 模拟旧浏览器环境
+  it('should work normally without classList support', () => {
+    // simulate old browser environment
     const mockElement = {
       classList: null,
       getAttribute: (attr: string) => attr === 'class' ? 'test-class other-class' : null
@@ -56,7 +56,7 @@ describe('hasClass', () => {
     expect(hasClass(mockElement, 'non-existent')).toBe(false)
   })
 
-  it('应该在元素没有 class 属性时返回 false', () => {
+  it('should return false when element has no class attribute', () => {
     const mockElement = {
       classList: null,
       getAttribute: () => null

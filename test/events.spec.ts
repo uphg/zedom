@@ -33,7 +33,7 @@ describe('events', () => {
   })
 
   describe('on', () => {
-    it('应该能添加简单的事件监听器', () => {
+    it('should add simple event listener', () => {
       const handler = vi.fn()
 
       on(button, 'click', handler)
@@ -42,7 +42,7 @@ describe('events', () => {
       expect(handler).toHaveBeenCalledTimes(1)
     })
 
-    it('应该能处理事件委托', () => {
+    it('should handle event delegation', () => {
       const handler = vi.fn()
 
       // 在容器上监听按钮的点击事件
@@ -53,7 +53,7 @@ describe('events', () => {
       expect(handler).toHaveBeenCalledWith(expect.any(Event))
     })
 
-    it('应该能处理深层级的事件委托', () => {
+    it('should handle deep level event delegation', () => {
       const handler = vi.fn()
 
       // 在容器上监听子元素的点击事件
@@ -63,7 +63,7 @@ describe('events', () => {
       expect(handler).toHaveBeenCalledTimes(1)
     })
 
-    it('应该能通过 ID 选择器处理事件委托', () => {
+    it('should handle event delegation with ID selector', () => {
       const handler = vi.fn()
 
       on(container, 'click', '#test-button', handler)
@@ -72,7 +72,7 @@ describe('events', () => {
       expect(handler).toHaveBeenCalledTimes(1)
     })
 
-    it('应该能处理不匹配选择器的情况', () => {
+    it('should handle non-matching selector cases', () => {
       const handler = vi.fn()
 
       on(container, 'click', '.non-existent', handler)
@@ -81,32 +81,32 @@ describe('events', () => {
       expect(handler).not.toHaveBeenCalled()
     })
 
-    it('应该返回元素本身', () => {
+    it('should return element itself', () => {
       const handler = vi.fn()
 
       const result = on(button, 'click', handler)
       expect(result).toBe(button)
     })
 
-    it('应该处理 null 元素', () => {
+    it('should handle null element', () => {
       const handler = vi.fn()
 
       expect(() => on(null, 'click', handler)).not.toThrow()
     })
 
-    it('应该处理空事件名', () => {
+    it('should handle empty event name', () => {
       const handler = vi.fn()
 
       expect(() => on(button, '', handler)).not.toThrow()
     })
 
-    it('应该处理空选择器', () => {
-      const handler = vi.fn()
+    it('should handle empty selector', () => {
+      const _handler = vi.fn()
 
       expect(() => on(button, 'click', '')).not.toThrow()
     })
 
-    it('应该能传递事件选项', () => {
+    it('should pass event options', () => {
       const handler = vi.fn()
 
       on(button, 'click', handler, { once: true })
@@ -114,11 +114,11 @@ describe('events', () => {
       button.click()
       button.click()
 
-      // 应该只触发一次
+      // should only trigger once
       expect(handler).toHaveBeenCalledTimes(1)
     })
 
-    it('应该能处理多种事件类型', () => {
+    it('should handle multiple event types', () => {
       const clickHandler = vi.fn()
       const mouseoverHandler = vi.fn()
 
@@ -134,7 +134,7 @@ describe('events', () => {
   })
 
   describe('off', () => {
-    it('应该能移除事件监听器', () => {
+    it('should remove event listener', () => {
       const handler = vi.fn()
 
       on(button, 'click', handler)
@@ -166,23 +166,23 @@ describe('events', () => {
       expect(result).toBe(button)
     })
 
-    it('应该处理 null 元素', () => {
+    it('should handle null element', () => {
       const handler = vi.fn()
 
       expect(() => off(null, 'click', handler)).not.toThrow()
     })
 
-    it('应该处理空事件名', () => {
+    it('should handle empty event name', () => {
       const handler = vi.fn()
 
       expect(() => off(button, '', handler)).not.toThrow()
     })
 
-    it('应该处理 null 处理器', () => {
+    it('should handle null handler', () => {
       expect(() => off(button, 'click', null as any)).not.toThrow()
     })
 
-    it('应该能传递事件选项', () => {
+    it('should pass event options', () => {
       const handler = vi.fn()
 
       on(button, 'click', handler, { capture: true })
@@ -192,7 +192,7 @@ describe('events', () => {
       expect(handler).not.toHaveBeenCalled()
     })
 
-    it('应该只移除指定的处理器', () => {
+    it('should only remove specified handler', () => {
       const handler1 = vi.fn()
       const handler2 = vi.fn()
 
@@ -207,11 +207,11 @@ describe('events', () => {
     })
   })
 
-  describe('事件委托的上下文', () => {
-    it('委托事件处理器的 this 应该指向匹配的元素', () => {
+  describe('event delegation context', () => {
+    it('delegated event handler this should point to matched element', () => {
       let contextElement: Element | null = null
 
-      function handler(this: Element, event: Event) {
+      function handler(this: Element, _event: Event) {
         contextElement = this
       }
 
@@ -221,15 +221,15 @@ describe('events', () => {
       expect(contextElement).toBe(button)
     })
 
-    it('委托事件应该能找到父级匹配的元素', () => {
+    it('delegated event should find parent matching element', () => {
       let contextElement: Element | null = null
 
-      function handler(this: Element, event: Event) {
+      function handler(this: Element, _event: Event) {
         contextElement = this
       }
 
       on(container, 'click', '.btn', handler)
-      child.click() // 点击子元素，应该冒泡到按钮
+      child.click() // click child element, should bubble to button
 
       expect(contextElement).toBe(button)
     })

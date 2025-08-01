@@ -42,49 +42,49 @@ describe('getIndex', () => {
     }
   })
 
-  it('应该返回第一个元素的索引', () => {
+  it('should return index of first element', () => {
     const index = getIndex(element1)
     expect(index).toBe(0)
   })
 
-  it('应该返回第二个元素的索引', () => {
+  it('should return index of second element', () => {
     const index = getIndex(element2)
     expect(index).toBe(1)
   })
 
-  it('应该返回第三个元素的索引', () => {
+  it('should return index of third element', () => {
     const index = getIndex(element3)
     expect(index).toBe(2)
   })
 
-  it('应该返回最后一个元素的索引', () => {
+  it('should return index of last element', () => {
     const index = getIndex(element4)
     expect(index).toBe(3)
   })
 
-  it('应该处理 null 元素', () => {
+  it('should handle null element', () => {
     const index = getIndex(null)
     expect(index).toBe(-1)
   })
 
-  it('应该处理 undefined 元素', () => {
+  it('should handle undefined element', () => {
     const index = getIndex(undefined as any)
     expect(index).toBe(-1)
   })
 
-  it('应该处理没有父节点的元素', () => {
+  it('should handle element without parent node', () => {
     const orphanElement = document.createElement('div')
     const index = getIndex(orphanElement)
     expect(index).toBe(-1)
   })
 
-  it('应该处理父节点没有子元素的情况', () => {
+  it('should handle case where parent node has no child elements', () => {
     const emptyContainer = document.createElement('div')
     const index = getIndex(emptyContainer)
     expect(index).toBe(-1)
   })
 
-  it('应该处理单个子元素的情况', () => {
+  it('should handle single child element case', () => {
     const singleContainer = document.createElement('div')
     const singleChild = document.createElement('span')
     singleContainer.appendChild(singleChild)
@@ -93,10 +93,10 @@ describe('getIndex', () => {
     expect(index).toBe(0)
   })
 
-  it('应该在动态添加元素后返回正确的索引', () => {
+  it('should return correct index after dynamically adding elements', () => {
     const newElement = document.createElement('strong')
 
-    // 在 element2 后面插入新元素
+    // insert new element after element2
     container.insertBefore(newElement, element3)
 
     expect(getIndex(element1)).toBe(0)
@@ -106,20 +106,20 @@ describe('getIndex', () => {
     expect(getIndex(element4)).toBe(4)
   })
 
-  it('应该在移除元素后返回正确的索引', () => {
-    // 移除第二个元素
+  it('should return correct index after removing elements', () => {
+    // remove second element
     container.removeChild(element2)
 
     expect(getIndex(element1)).toBe(0)
     expect(getIndex(element3)).toBe(1)
     expect(getIndex(element4)).toBe(2)
 
-    // 已移除的元素应该返回 -1
+    // removed element should return -1
     expect(getIndex(element2)).toBe(-1)
   })
 
-  it('应该在重新排序元素后返回正确的索引', () => {
-    // 将第一个元素移动到最后
+  it('should return correct index after reordering elements', () => {
+    // move first element to last
     container.appendChild(element1)
 
     expect(getIndex(element2)).toBe(0)
@@ -128,20 +128,20 @@ describe('getIndex', () => {
     expect(getIndex(element1)).toBe(3)
   })
 
-  it('应该处理不同层级的元素', () => {
+  it('should handle elements at different levels', () => {
     const nestedContainer = document.createElement('div')
     const nestedElement = document.createElement('span')
     nestedContainer.appendChild(nestedElement)
     container.appendChild(nestedContainer)
 
-    // 嵌套元素在其父容器中的索引
+    // nested element's index in its parent container
     expect(getIndex(nestedElement)).toBe(0)
 
-    // 嵌套容器在主容器中的索引
+    // nested container's index in main container
     expect(getIndex(nestedContainer)).toBe(4)
   })
 
-  it('应该处理文本节点和元素混合的情况', () => {
+  it('should handle mixed text nodes and elements', () => {
     const mixedContainer = document.createElement('div')
     const childElement1 = document.createElement('span')
     const childElement2 = document.createElement('div')
@@ -150,13 +150,13 @@ describe('getIndex', () => {
     mixedContainer.appendChild(document.createTextNode('Text Node'))
     mixedContainer.appendChild(childElement2)
 
-    // 只计算元素节点，不计算文本节点
+    // only count element nodes, not text nodes
     expect(getIndex(childElement1)).toBe(0)
     expect(getIndex(childElement2)).toBe(1)
   })
 
-  it('应该保持索引的一致性', () => {
-    // 多次调用应该返回相同的结果
+  it('should maintain index consistency', () => {
+    // multiple calls should return same result
     const index1 = getIndex(element2)
     const index2 = getIndex(element2)
     const index3 = getIndex(element2)
@@ -166,13 +166,13 @@ describe('getIndex', () => {
     expect(index1).toBe(1)
   })
 
-  it('应该正确处理连续的索引', () => {
+  it('should correctly handle consecutive indices', () => {
     const indices = [element1, element2, element3, element4].map(getIndex)
 
     expect(indices).toEqual([0, 1, 2, 3])
     expect(indices).toHaveLength(4)
 
-    // 检查是否是连续的索引
+    // check if indices are consecutive
     for (let i = 0; i < indices.length; i++) {
       expect(indices[i]).toBe(i)
     }

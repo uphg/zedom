@@ -8,7 +8,7 @@ describe('removeClass', () => {
     element = document.createElement('div')
   })
 
-  it('应该能移除单个类名', () => {
+  it('should remove single class name', () => {
     element.className = 'class1 class2 class3'
     removeClass(element, 'class2')
     expect(element.className).not.toContain('class2')
@@ -16,7 +16,7 @@ describe('removeClass', () => {
     expect(element.className).toContain('class3')
   })
 
-  it('应该能移除多个类名', () => {
+  it('should remove multiple class names', () => {
     element.className = 'class1 class2 class3 class4'
     removeClass(element, 'class1', 'class3')
     expect(element.className).not.toContain('class1')
@@ -25,7 +25,7 @@ describe('removeClass', () => {
     expect(element.className).toContain('class4')
   })
 
-  it('应该能处理包含空格的类名字符串', () => {
+  it('should handle class name strings containing spaces', () => {
     element.className = 'class1 class2 class3'
     removeClass(element, 'class1 class3')
     expect(element.className).not.toContain('class1')
@@ -33,28 +33,28 @@ describe('removeClass', () => {
     expect(element.className).toContain('class2')
   })
 
-  it('应该忽略不存在的类名', () => {
+  it('should ignore non-existent class names', () => {
     element.className = 'class1 class2'
     removeClass(element, 'non-existent')
     expect(element.className).toContain('class1')
     expect(element.className).toContain('class2')
   })
 
-  it('应该跳过空的类名参数', () => {
+  it('should skip empty class name parameters', () => {
     element.className = 'class1 class2'
     removeClass(element, 'class1')
-    // 验证可以正常移除有效的类名
+    // verify that valid class names can be removed normally
     expect(element.className).toContain('class2')
     expect(element.className).not.toContain('class1')
   })
 
-  it('应该处理移除所有类名的情况', () => {
+  it('should handle removing all class names', () => {
     element.className = 'class1 class2'
     removeClass(element, 'class1', 'class2')
     expect(element.className.trim()).toBe('')
   })
 
-  it('应该在没有 classList 支持时正常工作', () => {
+  it('should work normally without classList support', () => {
     const mockElement = {
       classList: null,
       getAttribute: (attr: string) => attr === 'class' ? 'class1 class2 class3' : null,
@@ -75,7 +75,7 @@ describe('removeClass', () => {
     expect(mockElement._className).toContain('class3')
   })
 
-  it('应该正确处理类名前后的空格', () => {
+  it('should correctly handle spaces before and after class names', () => {
     element.className = ' class1  class2  class3 '
     removeClass(element, 'class2')
     expect(element.className).not.toContain('class2')
@@ -83,7 +83,7 @@ describe('removeClass', () => {
     expect(element.className).toContain('class3')
   })
 
-  it('应该处理重复的类名', () => {
+  it('should handle duplicate class names', () => {
     element.className = 'class1 class2 class1 class3'
     removeClass(element, 'class1')
     expect(element.className).not.toContain('class1')
@@ -91,21 +91,21 @@ describe('removeClass', () => {
     expect(element.className).toContain('class3')
   })
 
-  it('应该在元素没有 class 属性时正常工作', () => {
+  it('should work normally when element has no class attribute', () => {
     const mockElement = {
       classList: null,
       getAttribute: () => null,
-      setAttribute: function() {}
+      setAttribute: function() { }
     } as any
 
-    // 不应该抛出错误
+    // should not throw error
     expect(() => removeClass(mockElement, 'class1')).not.toThrow()
   })
 
-  it('应该保持剩余类名的顺序', () => {
+  it('should maintain order of remaining class names', () => {
     element.className = 'class1 class2 class3 class4 class5'
     removeClass(element, 'class2', 'class4')
-    
+
     const remainingClasses = element.className.trim().split(/\s+/)
     expect(remainingClasses).toEqual(['class1', 'class3', 'class5'])
   })

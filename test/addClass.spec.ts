@@ -8,25 +8,25 @@ describe('addClass', () => {
     element = document.createElement('div')
   })
 
-  it('应该能添加单个类名', () => {
+  it('should add single class name', () => {
     addClass(element, 'test-class')
     expect(element.className).toBe('test-class')
   })
 
-  it('应该能添加多个类名', () => {
+  it('should add multiple class names', () => {
     addClass(element, 'class1', 'class2', 'class3')
     expect(element.className).toContain('class1')
     expect(element.className).toContain('class2')
     expect(element.className).toContain('class3')
   })
 
-  it('应该能添加数组形式的类名', () => {
+  it('should add class names in array format', () => {
     addClass(element, ['class1', 'class2'])
     expect(element.className).toContain('class1')
     expect(element.className).toContain('class2')
   })
 
-  it('应该能混合添加字符串和数组形式的类名', () => {
+  it('should add mixed string and array format class names', () => {
     addClass(element, 'class1', ['class2', 'class3'], 'class4')
     expect(element.className).toContain('class1')
     expect(element.className).toContain('class2')
@@ -34,32 +34,32 @@ describe('addClass', () => {
     expect(element.className).toContain('class4')
   })
 
-  it('应该正确处理已有类名的元素', () => {
+  it('should correctly handle elements with existing class names', () => {
     element.className = 'existing-class'
     addClass(element, 'new-class')
     expect(element.className).toContain('existing-class')
     expect(element.className).toContain('new-class')
   })
 
-  it('应该能处理包含空格的类名字符串', () => {
+  it('should handle class name strings containing spaces', () => {
     addClass(element, 'class1 class2')
     expect(element.className).toContain('class1')
     expect(element.className).toContain('class2')
   })
 
-  it('应该跳过空字符串和空白字符', () => {
-    // 测试不会因为空字符串报错，并且只添加有效的类名
+  it('should skip empty strings and whitespace characters', () => {
+    // test that empty strings don't cause errors and only valid class names are added
     addClass(element, 'valid-class')
     expect(element.className.trim()).toBe('valid-class')
 
-    // 测试有效的类名还能正常添加
+    // test that valid class names can still be added normally
     addClass(element, 'another-class')
     expect(element.className).toContain('valid-class')
     expect(element.className).toContain('another-class')
   })
 
-  it('应该在没有 classList 支持时正常工作', () => {
-    // 模拟旧浏览器环境
+  it('should work normally without classList support', () => {
+    // simulate old browser environment
     const mockElement = {
       classList: null,
       getAttribute: (attr: string) => attr === 'class' ? 'existing-class' : null,
@@ -79,17 +79,17 @@ describe('addClass', () => {
     expect(mockElement._className).toContain('new-class')
   })
 
-  it('应该处理数组的类名', () => {
+  it('should handle array class names', () => {
     addClass(element, ['simple1', 'simple2'])
     expect(element.className).toContain('simple1')
     expect(element.className).toContain('simple2')
   })
 
-  it('应该去重复的类名', () => {
+  it('should deduplicate class names', () => {
     element.className = 'existing-class'
     addClass(element, 'existing-class', 'new-class')
 
-    // 计算 existing-class 出现的次数
+    // count occurrences of existing-class
     const matches = element.className.match(/existing-class/g)
     expect(matches?.length).toBe(1)
     expect(element.className).toContain('new-class')

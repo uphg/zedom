@@ -15,12 +15,12 @@ describe('setStyle', () => {
     }
   })
 
-  it('应该能设置单个样式属性', () => {
+  it('should set single style property', () => {
     setStyle(element, 'color', 'red')
     expect(element.style.color).toBe('red')
   })
 
-  it('应该能通过对象设置多个样式', () => {
+  it('should set multiple styles through object', () => {
     setStyle(element, {
       color: 'blue',
       fontSize: '16px',
@@ -32,12 +32,12 @@ describe('setStyle', () => {
     expect(element.style.margin).toBe('10px')
   })
 
-  it('应该能将 kebab-case 转换为 camelCase', () => {
+  it('should convert kebab-case to camelCase', () => {
     setStyle(element, 'background-color', 'green')
     expect(element.style.backgroundColor).toBe('green')
   })
 
-  it('应该能设置 font 相关样式', () => {
+  it('should set font-related styles', () => {
     setStyle(element, 'font-size', '18px')
     setStyle(element, 'font-weight', 'bold')
 
@@ -45,7 +45,7 @@ describe('setStyle', () => {
     expect(element.style.fontWeight).toBe('bold')
   })
 
-  it('应该能设置 border 相关样式', () => {
+  it('should set border-related styles', () => {
     setStyle(element, 'border-width', '2px')
     setStyle(element, 'border-style', 'solid')
     setStyle(element, 'border-color', 'black')
@@ -55,12 +55,12 @@ describe('setStyle', () => {
     expect(element.style.borderColor).toBe('black')
   })
 
-  it('应该能设置复合样式', () => {
+  it('should set compound styles', () => {
     setStyle(element, 'border', '1px solid red')
     expect(element.style.border).toBe('1px solid red')
   })
 
-  it('应该能设置 position 相关样式', () => {
+  it('should set position-related styles', () => {
     setStyle(element, {
       'position': 'absolute',
       'top': '10px',
@@ -74,12 +74,12 @@ describe('setStyle', () => {
     expect(element.style.zIndex).toBe('100')
   })
 
-  it('应该能设置 transform 样式', () => {
+  it('should set transform styles', () => {
     setStyle(element, 'transform', 'translateX(50px) rotateZ(45deg)')
     expect(element.style.transform).toBe('translateX(50px) rotateZ(45deg)')
   })
 
-  it('应该能设置数值样式', () => {
+  it('should set numeric styles', () => {
     setStyle(element, {
       width: '100px',
       height: '200px',
@@ -91,23 +91,23 @@ describe('setStyle', () => {
     expect(element.style.opacity).toBe('0.5')
   })
 
-  it('应该覆盖现有样式', () => {
+  it('should override existing styles', () => {
     element.style.color = 'red'
     setStyle(element, 'color', 'blue')
     expect(element.style.color).toBe('blue')
   })
 
-  it('应该能设置 margin 和 padding', () => {
+  it('should set margin and padding', () => {
     setStyle(element, {
       margin: '10px 20px',
       padding: '5px 15px 10px 20px'
     })
 
-    // 先设置基础值，再测试覆盖
+    // set base values first, then test override
     expect(element.style.margin).toBe('10px 20px')
     expect(element.style.padding).toBe('5px 15px 10px 20px')
 
-    // 测试覆盖特定的值
+    // test overriding specific values
     setStyle(element, {
       'margin-top': '30px',
       'padding-left': '25px'
@@ -117,7 +117,7 @@ describe('setStyle', () => {
     expect(element.style.paddingLeft).toBe('25px')
   })
 
-  it('应该能处理 flex 相关样式', () => {
+  it('should handle flex-related styles', () => {
     setStyle(element, {
       'display': 'flex',
       'flex-direction': 'column',
@@ -131,7 +131,7 @@ describe('setStyle', () => {
     expect(element.style.alignItems).toBe('center')
   })
 
-  it('应该能处理 grid 相关样式', () => {
+  it('should handle grid-related styles', () => {
     setStyle(element, {
       'display': 'grid',
       'grid-template-columns': '1fr 1fr 1fr',
@@ -143,16 +143,16 @@ describe('setStyle', () => {
     expect(element.style.gridGap).toBe('10px')
   })
 
-  it('应该能处理空值', () => {
+  it('should handle empty values', () => {
     element.style.color = 'red'
     setStyle(element, 'color', '')
     expect(element.style.color).toBe('')
   })
 
-  it('应该能处理 undefined 值', () => {
+  it('should handle undefined values', () => {
     element.style.color = 'red'
     setStyle(element, 'color', undefined as any)
-    // undefined 被转换为字符串 'undefined' 或者保持原值，取决于实现
+    // undefined is converted to string 'undefined' or keeps original value, depends on implementation
     expect(element.style.color === 'undefined' || element.style.color === 'red' || element.style.color === '').toBe(true)
   })
 })

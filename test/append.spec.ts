@@ -32,7 +32,7 @@ describe('append', () => {
     }
   })
 
-  it('应该能添加单个子元素', () => {
+  it('should add single child element', () => {
     append(parent, child1)
 
     expect(parent.children.length).toBe(1)
@@ -40,7 +40,7 @@ describe('append', () => {
     expect(child1.parentNode).toBe(parent)
   })
 
-  it('应该能添加多个子元素', () => {
+  it('should add multiple child elements', () => {
     append(parent, child1, child2, child3)
 
     expect(parent.children.length).toBe(3)
@@ -49,7 +49,7 @@ describe('append', () => {
     expect(parent.children[2]).toBe(child3)
   })
 
-  it('应该能添加数组形式的子元素', () => {
+  it('should add child elements in array format', () => {
     append(parent, [child1, child2])
 
     expect(parent.children.length).toBe(2)
@@ -57,7 +57,7 @@ describe('append', () => {
     expect(parent.children[1]).toBe(child2)
   })
 
-  it('应该能混合添加单个元素和数组', () => {
+  it('should add mixed single elements and arrays', () => {
     append(parent, child1, [child2, child3])
 
     expect(parent.children.length).toBe(3)
@@ -66,7 +66,7 @@ describe('append', () => {
     expect(parent.children[2]).toBe(child3)
   })
 
-  it('应该保持子元素的顺序', () => {
+  it('should maintain order of child elements', () => {
     append(parent, child3, child1, child2)
 
     expect(parent.children[0]).toBe(child3)
@@ -74,7 +74,7 @@ describe('append', () => {
     expect(parent.children[2]).toBe(child2)
   })
 
-  it('应该能添加到已有子元素的父元素', () => {
+  it('should add to parent element with existing children', () => {
     parent.appendChild(child1)
     append(parent, child2)
 
@@ -83,7 +83,7 @@ describe('append', () => {
     expect(parent.children[1]).toBe(child2)
   })
 
-  it('应该忽略 null 和 undefined 元素', () => {
+  it('should ignore null and undefined elements', () => {
     append(parent, child1, null, child2, undefined)
 
     expect(parent.children.length).toBe(2)
@@ -91,12 +91,12 @@ describe('append', () => {
     expect(parent.children[1]).toBe(child2)
   })
 
-  it('应该返回父元素', () => {
+  it('should return parent element', () => {
     const result = append(parent, child1)
     expect(result).toBe(parent)
   })
 
-  it('应该能添加文本节点', () => {
+  it('should add text node', () => {
     const textNode = document.createTextNode('Hello World')
 
     append(parent, textNode)
@@ -106,7 +106,7 @@ describe('append', () => {
     expect(parent.textContent).toBe('Hello World')
   })
 
-  it('应该能添加文档片段', () => {
+  it('should add document fragment', () => {
     const fragment = document.createDocumentFragment()
     fragment.appendChild(child1)
     fragment.appendChild(child2)
@@ -120,7 +120,7 @@ describe('append', () => {
     expect(fragment.children.length).toBe(0)
   })
 
-  it('应该能处理嵌套数组', () => {
+  it('should handle nested arrays', () => {
     append(parent, [child1, child2, child3])
 
     expect(parent.children.length).toBe(3)
@@ -129,7 +129,7 @@ describe('append', () => {
     expect(parent.children[2]).toBe(child3)
   })
 
-  it('应该能移动已存在于 DOM 中的元素', () => {
+  it('should move elements already existing in DOM', () => {
     const anotherParent = document.createElement('div')
     document.body.appendChild(anotherParent)
     anotherParent.appendChild(child1)
