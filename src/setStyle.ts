@@ -1,15 +1,9 @@
-import type { StyleElement } from './internal/interface'
-import isObject from './internal/isObject'
-import camelize from "./internal/camelize";
-import each from './internal/each'
+import type { StyleElement } from './internal/types'
+import { isObject, camelize, forEachEntry } from 'unfunt'
 
-function setStyle(
-  el: StyleElement,
-  styles: Record<string, string> | string,
-  value?: string
-) {
+function setStyle(el: StyleElement, styles: Record<string, string> | string, value?: string) {
   if (isObject(styles)) {
-    each(styles, (item, key) => {
+    forEachEntry(styles, (key, item) => {
       setStyle(el, key as string, item)
     })
     return

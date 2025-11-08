@@ -10,12 +10,10 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+npm-packages
 *.local
 
 desktop.ini
-
-docs/.vitepress/dist
-docs/.vitepress/cache
 
 # Editor directories and files
 # .vscode/*
@@ -32,3 +30,6 @@ docs/.vitepress/cache
 .claude
 CLAUDE.*
 .github-demo
+
+# Publish cache
+.publish-cache.json

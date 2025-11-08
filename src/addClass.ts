@@ -7,7 +7,7 @@ function addClass(el: Element, ...args: (string | string[])[]) {
     return
   }
 
-  const className = (el.getAttribute('class') || '') + ` ${classNames.join(' ')}`
+  const className = `${el.getAttribute('class') || ''} ${classNames.join(' ')}`
   el.setAttribute('class', className)
 }
 

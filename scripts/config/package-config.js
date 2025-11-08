@@ -1,21 +1,28 @@
-/**
- * Generate package.json configuration
- * @param {string} version - Version number
- * @returns {Object} package.json configuration object
- */
-export function createPackageConfig(version = '0.1.6') {
+import { readFileSync } from 'fs'
+import { join } from 'path'
+import { rootDir } from './_root-dir.js'
+
+export function createPackageConfig(version = '0.1.0') {
+  const mainPackagePath = join(rootDir, 'package.json')
+  const mainPackage = JSON.parse(readFileSync(mainPackagePath, 'utf-8'))
+  
   return {
-    name: 'zedom',
+    name: mainPackage.name,
     version,
-    license: 'MIT',
-    main: 'index.umd.js',
-    module: 'index.js',
-    types: 'index.d.ts',
-    description: 'A lightweight JavaScript utility library with common functions',
-    keywords: ['javascript', 'typescript', 'utils', 'utility', 'functions', 'library', 'tools'],
-    homepage: 'https://github.com/lvheng/zedom#readme',
-    repository: 'lvheng/zedom',
-    bugs: 'https://github.com/lvheng/zedom/issues',
-    author: 'Lv Heng <lvheng233@gmail.com>'
+    description: mainPackage.description,
+    keywords: mainPackage.keywords,
+    homepage: mainPackage.homepage,
+    repository: mainPackage.repository,
+    bugs: mainPackage.bugs,
+    author: mainPackage.author,
+    license: mainPackage.license,
+    main: 'dist/index.umd.js',
+    module: 'dist/index.js',
+    types: 'dist/index.d.ts',
+    files: [
+      'dist',
+      'README.md',
+      'LICENSE'
+    ]
   }
 }

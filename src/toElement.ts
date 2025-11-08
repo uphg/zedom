@@ -1,12 +1,11 @@
-import isNil from "./internal/isNil"
-import trim from "./internal/trim"
-import append from "./append"
+import { isNil } from 'unfunt'
+import append from './append'
 
 // See: https://stackoverflow.com/a/35385518
 function toElement(innerHTML: string, children?: ArrayLike<Element>) {
   if (isNil(innerHTML)) return document.createElement(innerHTML)
   const template = document.createElement('template')
-  template.innerHTML = trim(innerHTML)
+  template.innerHTML = innerHTML.trim?.()
   const node = template.content.firstChild! as Element
 
   if (children?.length) {
@@ -17,4 +16,3 @@ function toElement(innerHTML: string, children?: ArrayLike<Element>) {
 }
 
 export default toElement
-

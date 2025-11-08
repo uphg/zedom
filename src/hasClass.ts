@@ -1,4 +1,4 @@
-import splitClass from "./internal/splitClass"
+import splitClass from './internal/splitClass'
 
 function hasClass(el: HTMLElement, className: string) {
   if (!el || !className) return false

@@ -5,7 +5,7 @@ import stylistic from '@stylistic/eslint-plugin'
 
 export default [
   {
-    ignores: ['node_modules/**', 'dist/**', 'docs/.vitepress/cache/**']
+    ignores: ['node_modules/**', 'dist/**', 'scripts/**', 'npm-packages/**', '*.config.js']
   },
   js.configs.recommended,
   stylistic.configs.recommended,
@@ -34,7 +34,7 @@ export default [
       '@stylistic': stylistic
     },
     rules: {
-      // Prohibit specific syntax
+      // 禁止特定语法
       'no-restricted-syntax': [
         'error',
         'WithStatement'
@@ -100,15 +100,16 @@ export default [
     }
   },
   {
-    // Special rules for test files
+    // 测试文件的特殊规则
     files: ['**/*.spec.ts', '**/*.test.ts', '**/test/**/*.ts'],
     rules: {
       '@stylistic/max-statements-per-line': 'off',
+      'no-sparse-arrays': 'off',
       'camelcase': 'off'
     }
   },
   {
-    // Special rules for bundled files
+    // 打包后文件的特殊规则
     files: ['dist/**/*.{js,ts,d.ts}'],
     rules: {
       '@stylistic/no-mixed-operators': 'off',

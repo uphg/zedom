@@ -4,7 +4,7 @@ import fs from 'fs-extra'
 import { fileURLToPath } from 'url'
 import minimist from 'minimist'
 import pc from 'picocolors'
-import { execaQuiet, handleBuildResult, BUILD_TYPES } from './utils.js'
+import { execaQuiet, handleBuildResult, BUILD_TYPES } from './helpers/exec.js'
 import { createPackageConfig } from './config/package-config.js'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -18,7 +18,7 @@ const argv = minimist(process.argv.slice(2))
 run(argv)
 
 async function run(argv) {
-  // Read root package.json to get default version
+  // 读取根目录 package.json 获取默认版本
   const rootPackagePath = path.resolve(__dirname, '../package.json')
   const rootPackage = JSON.parse(await fs.readFile(rootPackagePath, 'utf-8'))
   const { v: version = rootPackage.version } = argv
@@ -34,28 +34,30 @@ async function run(argv) {
 
     console.log(pc.dim('Building bundles...'))
 
-    // Execute all rollup builds in parallel
-    const [cjsResult, esmResult, umdResult] = await Promise.all([
-      execaQuiet('rollup', ['-c', 'rollup.config.ts', '--environment', 'CJS', '--configPlugin', '@rollup/plugin-typescript']),
-      execaQuiet('rollup', ['-c', 'rollup.config.ts', '--environment', 'ESM', '--configPlugin', '@rollup/plugin-typescript']),
-      execaQuiet('rollup', ['-c', 'rollup.config.ts', '--configPlugin', '@rollup/plugin-typescript'])
-    ])
+    // 并行执行所有 rollup 构建
+    const esmResult = await execaQuiet('tsdown')
+    const umdResult = await execaQuiet('BUILD_ENV=umd tsdown', { shell: true })
 
-    // Display build results
+    // 显示构建结果
     console.log(pc.dim('Build Results:'))
 
-    // Handle build results uniformly
+    // 统一处理构建结果
     handleBuildResult(tscResult, BUILD_TYPES.TSC.name, BUILD_TYPES.TSC.type)
-    handleBuildResult(cjsResult, BUILD_TYPES.CJS.name, BUILD_TYPES.CJS.type)
     handleBuildResult(esmResult, BUILD_TYPES.ESM.name, BUILD_TYPES.ESM.type)
     handleBuildResult(umdResult, BUILD_TYPES.UMD.name, BUILD_TYPES.UMD.type)
 
     const strPackage = JSON.stringify(packageJson, null, 2)
     await fs.writeFile(resolve('./package.json'), strPackage)
-    await fs.copy('README.md', resolve('README.md'))
-    await fs.copy('LICENSE', resolve('LICENSE'))
+    
+    // 创建 README.md 和 LICENSE 文件（如果存在）
+    if (fs.existsSync(path.resolve(__dirname, '../README.md'))) {
+      await fs.copy('README.md', resolve('README.md'))
+    }
+    if (fs.existsSync(path.resolve(__dirname, '../LICENSE'))) {
+      await fs.copy('LICENSE', resolve('LICENSE'))
+    }
 
-    // Format bundled code and type files
+    // 格式化打包后的代码和类型文件
     console.log(pc.dim('Formatting output files...'))
     try {
       await execa('pnpm', [

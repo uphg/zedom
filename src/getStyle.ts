@@ -1,4 +1,4 @@
-import camelize from "./internal/camelize";
+import { camelize } from 'unfunt'
 
 function getStyle(el: HTMLElement, styleName: string) {
   if (!el || !styleName) return null

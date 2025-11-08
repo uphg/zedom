@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
-    "target": "ES2023",
+    "target": "ESNext",
     "useDefineForClassFields": true,
     "module": "ESNext",
     "lib": [
-      "ES2023",
+      "ESNext",
       "DOM",
       "DOM.Iterable"
     ],
@@ -23,7 +23,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src"],
+  "exclude": ["scripts", "npm-packages", "dist", "test"]
 }

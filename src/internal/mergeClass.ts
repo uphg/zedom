@@ -1,11 +1,10 @@
 import splitClass from './splitClass'
-import isArray from './isArray'
 
 function mergeClass(args: (string | string[])[]): string[] {
   const result: string[] = []
-  
+
   for (const item of args) {
-    if (isArray(item)) {
+    if (Array.isArray(item)) {
       for (const name of item) {
         result.push(...splitClass(name))
       }
@@ -13,7 +12,7 @@ function mergeClass(args: (string | string[])[]): string[] {
       result.push(...splitClass(item))
     }
   }
-  
+
   return result
 }
 
