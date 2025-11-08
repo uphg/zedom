@@ -1,6 +1,11 @@
 import { readFileSync } from 'fs'
-import { join } from 'path'
-import { rootDir } from './_root-dir.js'
+import { join, dirname, resolve } from 'path'
+import { fileURLToPath } from 'url'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+
+const rootDir = resolve(__dirname, '../..')
 
 export function createPackageConfig(version = '0.1.0') {
   const mainPackagePath = join(rootDir, 'package.json')
@@ -23,6 +28,7 @@ export function createPackageConfig(version = '0.1.0') {
       'dist',
       'README.md',
       'LICENSE'
-    ]
+    ],
+    dependencies: mainPackage.dependencies
   }
 }

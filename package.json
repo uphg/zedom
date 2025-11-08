@@ -3,7 +3,7 @@
   "version": "0.1.0-alpha.2",
   "packageManager": "pnpm@10.13.1",
   "type": "module",
-  "description": "一个轻量级的 JavaScript DOM 库",
+  "description": "A lightweight JavaScript DOM library",
   "keywords": [
     "javascript",
     "typescript",
