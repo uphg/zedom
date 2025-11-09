@@ -1,7 +1,7 @@
 import type { StyleElement } from './internal/types'
 import { isObject, camelize, forEachEntry } from 'unfunt'
 
-function setStyle(el: StyleElement, styles: Record<string, string> | string, value?: string) {
+export function setStyle(el: StyleElement, styles: Record<string, string> | string, value?: string) {
   if (isObject(styles)) {
     forEachEntry(styles, (key, item) => {
       setStyle(el, key as string, item)
@@ -12,5 +12,3 @@ function setStyle(el: StyleElement, styles: Record<string, string> | string, val
   const styleName = camelize(styles as string)
   el.style[styleName] = value
 }
-
-export default setStyle

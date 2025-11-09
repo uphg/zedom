@@ -1,10 +1,11 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
-import { on, off } from '../src/events'
+import { EventManager } from '../src'
 
 describe('events', () => {
   let container: HTMLElement
   let button: HTMLElement
   let child: HTMLElement
+  const { on, off, delegate } = new EventManager()
 
   beforeEach(() => {
     container = document.createElement('div')
@@ -46,7 +47,7 @@ describe('events', () => {
       const handler = vi.fn()
 
       // 在容器上监听按钮的点击事件
-      on(container, 'click', '.btn', handler)
+      delegate(container, 'click', '.btn', handler)
 
       button.click()
       expect(handler).toHaveBeenCalledTimes(1)
@@ -57,7 +58,7 @@ describe('events', () => {
       const handler = vi.fn()
 
       // 在容器上监听子元素的点击事件
-      on(container, 'click', '.child-element', handler)
+      delegate(container, 'click', '.child-element', handler)
 
       child.click()
       expect(handler).toHaveBeenCalledTimes(1)
@@ -66,7 +67,7 @@ describe('events', () => {
     it('应该能通过 ID 选择器处理事件委托', () => {
       const handler = vi.fn()
 
-      on(container, 'click', '#test-button', handler)
+      delegate(container, 'click', '#test-button', handler)
 
       button.click()
       expect(handler).toHaveBeenCalledTimes(1)
@@ -75,7 +76,7 @@ describe('events', () => {
     it('应该能处理不匹配选择器的情况', () => {
       const handler = vi.fn()
 
-      on(container, 'click', '.non-existent', handler)
+      delegate(container, 'click', '.non-existent', handler)
 
       button.click()
       expect(handler).not.toHaveBeenCalled()
@@ -149,7 +150,7 @@ describe('events', () => {
     it('应该能移除委托事件监听器', () => {
       const handler = vi.fn()
 
-      on(container, 'click', '.btn', handler)
+      delegate(container, 'click', '.btn', handler)
       button.click()
       expect(handler).toHaveBeenCalledTimes(1)
 
@@ -211,11 +212,11 @@ describe('events', () => {
     it('委托事件处理器的 this 应该指向匹配的元素', () => {
       let contextElement: Element | null = null
 
-      function handler(this: Element, event: Event) {
+      function handler(this: Element, _event: Event) {
         contextElement = this
       }
 
-      on(container, 'click', '.btn', handler)
+      delegate(container, 'click', '.btn', handler)
       button.click()
 
       expect(contextElement).toBe(button)
@@ -224,11 +225,11 @@ describe('events', () => {
     it('委托事件应该能找到父级匹配的元素', () => {
       let contextElement: Element | null = null
 
-      function handler(this: Element, event: Event) {
+      function handler(this: Element, _event: Event) {
         contextElement = this
       }
 
-      on(container, 'click', '.btn', handler)
+      delegate(container, 'click', '.btn', handler)
       child.click() // 点击子元素，应该冒泡到按钮
 
       expect(contextElement).toBe(button)
