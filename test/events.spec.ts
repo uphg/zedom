@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
-import { EventManager } from '../src'
+import { EventManager } from '../src/zedom'
 
 describe('events', () => {
   let container: HTMLElement
@@ -102,7 +102,7 @@ describe('events', () => {
     })
 
     it('应该处理空选择器', () => {
-      const handler = vi.fn()
+      const _handler = vi.fn()
 
       expect(() => on(button, 'click', '')).not.toThrow()
     })
