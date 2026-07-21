@@ -1,5 +1,5 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import toElement from '../src/toElement'
+import { describe, it, expect, afterEach } from 'vitest'
+import { toElement } from '../src/toElement'
 
 describe('toElement', () => {
   afterEach(() => {

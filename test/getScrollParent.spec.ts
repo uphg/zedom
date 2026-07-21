@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import getScrollParent from '../src/getScrollParent'
+import { getScrollParent } from '../src/getScrollParent'
 
 describe('getScrollParent', () => {
   let container: HTMLElement

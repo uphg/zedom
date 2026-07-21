@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import getIndex from '../src/getIndex'
+import { getIndex } from '../src/getIndex'
 
 describe('getIndex', () => {
   let container: HTMLElement

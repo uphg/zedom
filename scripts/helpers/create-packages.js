@@ -33,7 +33,7 @@ export default defineConfig({
   sourcemap: true,
   clean: true,
   outputOptions: {
-    name: 'fun_demo_${functionName.replace(/[-]/g, '_')}',
+    name: 'zedom_${functionName.replace(/[-]/g, '_')}',
   }
 })
 `
@@ -53,27 +53,27 @@ export async function createMetaDocs(functionName, { functionDir }) {
   const hyphName = hyphenate(functionName)
   // Create package.json
   const packageJson = {
-    name: `@fun-demo/${hyphName}`,
+    name: `@zedom/${hyphName}`,
     version,
     license: 'MIT',
     main: 'dist/index.umd.js',
     module: 'dist/index.js',
     types: 'dist/index.d.ts',
-    description: '一个轻量级的 JavaScript 数学运算库',
+    description: 'A lightweight JavaScript DOM utility library',
     keywords: [
       'javascript',
       'typescript',
-      'math',
+      'dom',
+      'events',
       'utils',
       'utility',
-      'functions',
       'library',
       'tools'
     ],
-    homepage: 'https://github.com/your-username/fun-demo#readme',
-    repository: 'your-username/fun-demo',
-    bugs: 'https://github.com/your-username/fun-demo/issues',
-    author: 'Your Name <your.email@example.com>'
+    homepage: 'https://github.com/xypur/zedom#readme',
+    repository: 'xypur/zedom',
+    bugs: 'https://github.com/xypur/zedom/issues',
+    author: 'xypur'
   }
 
   writeFileSync(
@@ -82,14 +82,14 @@ export async function createMetaDocs(functionName, { functionDir }) {
   )
 
   // Create README.md
-  const readmeContent = `# @fun-demo/${hyphName} v${version}
+  const readmeContent = `# @zedom/${hyphName} v${version}
 
 ## Installation
 
 Using npm
 
 \`\`\`bash
-$ npm i @fun-demo/${hyphName}
+$ npm i @zedom/${hyphName}
 \`\`\`
 
 See the documentation or package source for more details.

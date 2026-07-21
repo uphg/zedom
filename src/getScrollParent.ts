@@ -5,7 +5,7 @@ const reOverflowScroll = /(auto|scroll|overlay)/
 export function getScrollParent<T extends Node>(node: T): GetScrollParentNode {
   if (node === null) return null
 
-  const parentNode = getParentNode(node) as HTMLElement
+  const parentNode = (node.nodeType === 9 ? null : node.parentNode) as HTMLElement
 
   if (parentNode === null) {
     return null
@@ -23,9 +23,4 @@ export function getScrollParent<T extends Node>(node: T): GetScrollParentNode {
   }
 
   return getScrollParent(parentNode)
-}
-
-function getParentNode(node: Node): Node | null {
-  // document type === 9
-  return node.nodeType === 9 ? null : node.parentNode
 }

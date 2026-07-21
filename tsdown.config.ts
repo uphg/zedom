@@ -1,5 +1,5 @@
 import { defineConfig } from 'tsdown'
-import { getPackageEntries } from './scripts/helpers/get-package-entries'
+import { getPackageEntries } from './scripts/helpers/get-package-entries.js'
 
 const { BUILD_ENV } = process.env || {}
 
@@ -24,7 +24,7 @@ const configs = {
     sourcemap: true,
     clean: false,
     outputOptions: {
-      name: 'funDemo'
+      name: 'zedom'
     }
   }
 }

@@ -26,4 +26,5 @@ jobs:
       - name: Run eslint
         run: pnpm lint
 
+      # Pinned SHA for supply-chain security (autofix-ci/action v2.2)
       - uses: autofix-ci/action@635ffb0c9798bd160680f18fd73371e355b85f27

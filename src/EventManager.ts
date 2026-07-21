@@ -16,6 +16,15 @@ export class EventManager {
   private events: WeakMap<EventElement, Map<string, EventData[]>> = new WeakMap()
   private delegateEvents: WeakMap<EventElement, Map<string, EventData[]>> = new WeakMap()
 
+  constructor() {
+    this.on = this.on.bind(this)
+    this.once = this.once.bind(this)
+    this.off = this.off.bind(this)
+    this.delegate = this.delegate.bind(this)
+    this.emit = this.emit.bind(this)
+    this.clear = this.clear.bind(this)
+  }
+
   /**
    * 绑定事件监听器
    * @param element 目标元素
@@ -24,6 +33,7 @@ export class EventManager {
    * @returns 取消监听的函数
    */
   on(el: EventElement, eventName: string, handler: EventHandler, options?: EventOptions): Unsubscribe {
+    if (!el || !eventName || typeof handler !== 'function') return () => {}
     const { events } = this
     // 存储事件数据
     if (!events.has(el as Element)) {
@@ -54,6 +64,7 @@ export class EventManager {
    * @returns 取消监听的函数
    */
   once(el: EventElement, eventName: string, handler: EventHandler, options?: EventOptions): Unsubscribe {
+    if (!el || !eventName || typeof handler !== 'function') return () => {}
     const { events } = this
     const onceHandler: EventHandler = (event) => {
       handler(event)
@@ -93,17 +104,16 @@ export class EventManager {
    * @returns 取消监听的函数
    */
   delegate(container: EventElement, eventName: string, selector: string, handler: EventHandler, options?: EventOptions): Unsubscribe {
+    if (!container || !eventName || !selector || typeof handler !== 'function') return () => {}
     const delegateHandler: EventHandler = (e) => {
       let target: Element | null = e.target as Element
-      // 检查是否匹配选择器
-      while (target?.matches(selector)) {
-        if (container === target) {
-          target = null
-          break
+      while (target && target !== container) {
+        if (target.matches(selector)) {
+          handler.call(target, e)
+          return
         }
-        target = target?.parentNode as Element
+        target = target.parentNode as Element
       }
-      target && handler.call(target, e)
     }
     const dgEvents = this.delegateEvents
     // 存储委托事件数据
@@ -138,26 +148,28 @@ export class EventManager {
    * @param handler 事件处理函数（可选）
    */
   off(el: EventElement, eventName: string, handler?: EventHandler, options?: EventListenerOptions): void {
-    // 移除普通事件
-    const elEvents = this.events.get(el)
-    if (elEvents && elEvents.has(eventName)) {
-      const handlers = elEvents.get(eventName)!
+    if (!el) return
+    const removeFromMap = (eventMap: WeakMap<EventElement, Map<string, EventData[]>>) => {
+      const elEvents = eventMap.get(el)
+      if (elEvents && elEvents.has(eventName)) {
+        const handlers = elEvents.get(eventName)!
 
-      if (handler) {
-        // 移除特定 handler
-        const index = handlers.findIndex(item => item.handler === handler || item.rawHandler === handler)
-        if (index > -1) {
-          const removed = handlers.splice(index, 1)[0]
-          el.removeEventListener(eventName, removed.handler, options)
+        if (handler) {
+          const index = handlers.findIndex(item => item.handler === handler || item.rawHandler === handler)
+          if (index > -1) {
+            const removed = handlers.splice(index, 1)[0]
+            el.removeEventListener(eventName, removed.handler, options)
+          }
+        } else {
+          handlers.forEach((data) => {
+            el.removeEventListener(eventName, data.handler, options)
+          })
+          elEvents.delete(eventName)
         }
-      } else {
-        // 移除所有该事件的 handler
-        handlers.forEach((data) => {
-          el.removeEventListener(eventName, data.handler, options)
-        })
-        elEvents.delete(eventName)
       }
     }
+    removeFromMap(this.events)
+    removeFromMap(this.delegateEvents)
   }
 
   /**

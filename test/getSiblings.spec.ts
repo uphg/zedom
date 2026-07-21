@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import getSiblings from '../src/getSiblings'
+import { getSiblings } from '../src/getSiblings'
 
 describe('getSiblings', () => {
   let container: HTMLElement

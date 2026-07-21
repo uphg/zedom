@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import getStyle from '../src/getStyle'
+import { getStyle } from '../src/getStyle'
 
 describe('getStyle', () => {
   let element: HTMLElement

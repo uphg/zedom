@@ -33,3 +33,7 @@ CLAUDE.*
 
 # Publish cache
 .publish-cache.json
+
+# VitePress
+docs/.vitepress/cache
+docs/.vitepress/dist

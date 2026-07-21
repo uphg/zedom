@@ -3,11 +3,14 @@ name: 'test'
 on: workflow_call
 
 permissions:
-  contents: read # to fetch code (actions/checkout)
+  contents: read
 
 jobs:
   unit-test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [18, 20, 22]
     steps:
       - uses: actions/checkout@v4
 
@@ -17,7 +20,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: ${{ matrix.node }}
           cache: 'pnpm'
 
       - run: pnpm install
@@ -45,4 +48,23 @@ jobs:
         run: pnpm lint:check
 
       - name: Run TypeScript check
-        run: pnpm build
+        run: pnpm typecheck
+
+  docs-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - run: pnpm install
+
+      - name: Build docs
+        run: pnpm docs:build

@@ -5,7 +5,7 @@ describe('events', () => {
   let container: HTMLElement
   let button: HTMLElement
   let child: HTMLElement
-  const { on, off, delegate } = new EventManager()
+  const { on, off, delegate, once, emit, clear } = new EventManager()
 
   beforeEach(() => {
     container = document.createElement('div')
@@ -82,11 +82,11 @@ describe('events', () => {
       expect(handler).not.toHaveBeenCalled()
     })
 
-    it('应该返回元素本身', () => {
+    it('应该返回取消监听的函数', () => {
       const handler = vi.fn()
 
       const result = on(button, 'click', handler)
-      expect(result).toBe(button)
+      expect(typeof result).toBe('function')
     })
 
     it('应该处理 null 元素', () => {
@@ -159,12 +159,12 @@ describe('events', () => {
       expect(handler).toHaveBeenCalledTimes(1) // 不应该再增加
     })
 
-    it('应该返回元素本身', () => {
+    it('off 没有返回值', () => {
       const handler = vi.fn()
       on(button, 'click', handler)
 
       const result = off(button, 'click', handler)
-      expect(result).toBe(button)
+      expect(result).toBeUndefined()
     })
 
     it('应该处理 null 元素', () => {
@@ -233,6 +233,99 @@ describe('events', () => {
       child.click() // 点击子元素，应该冒泡到按钮
 
       expect(contextElement).toBe(button)
+    })
+  })
+
+  describe('once', () => {
+    it('should trigger handler only once', () => {
+      const handler = vi.fn()
+
+      once(button, 'click', handler)
+
+      button.click()
+      button.click()
+      button.click()
+
+      expect(handler).toHaveBeenCalledTimes(1)
+    })
+
+    it('should return unsubscribe function', () => {
+      const handler = vi.fn()
+
+      const off = once(button, 'click', handler)
+      expect(typeof off).toBe('function')
+    })
+
+    it('should handle null element', () => {
+      const handler = vi.fn()
+
+      expect(() => once(null, 'click', handler)).not.toThrow()
+    })
+
+    it('should handle empty event name', () => {
+      const handler = vi.fn()
+
+      expect(() => once(button, '', handler)).not.toThrow()
+    })
+  })
+
+  describe('emit', () => {
+    it('should dispatch custom event with detail', () => {
+      const handler = vi.fn()
+      const detail = { message: 'hello' }
+
+      on(button, 'custom-event', handler)
+      emit(button, 'custom-event', detail)
+
+      expect(handler).toHaveBeenCalledTimes(1)
+      expect(handler).toHaveBeenCalledWith(expect.objectContaining({ detail }))
+    })
+
+    it('should dispatch custom event without detail', () => {
+      const handler = vi.fn()
+
+      on(button, 'bare-event', handler)
+      emit(button, 'bare-event')
+
+      expect(handler).toHaveBeenCalledTimes(1)
+    })
+
+    it('should bubble events', () => {
+      const handler = vi.fn()
+
+      on(container, 'bubble-test', handler)
+      emit(button, 'bubble-test')
+
+      expect(handler).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  describe('clear', () => {
+    it('should remove all listeners from an element', () => {
+      const handler1 = vi.fn()
+      const handler2 = vi.fn()
+
+      on(button, 'click', handler1)
+      on(button, 'mouseover', handler2)
+
+      clear(button)
+
+      button.click()
+      button.dispatchEvent(new MouseEvent('mouseover'))
+
+      expect(handler1).not.toHaveBeenCalled()
+      expect(handler2).not.toHaveBeenCalled()
+    })
+
+    it('should remove delegate listeners as well', () => {
+      const handler = vi.fn()
+
+      delegate(container, 'click', '.btn', handler)
+      clear(container)
+
+      button.click()
+
+      expect(handler).not.toHaveBeenCalled()
     })
   })
 })

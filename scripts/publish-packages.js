@@ -28,7 +28,7 @@ async function run() {
       
       if (fs.existsSync(packageJsonPath)) {
         const hyphName = hyphenate(functionName)
-        console.log(pc.dim(`Publishing @fun-demo/${hyphName}...`))
+        console.log(pc.dim(`Publishing @zedom/${hyphName}...`))
 
         try {
           // 进入包目录并发布
@@ -37,10 +37,10 @@ async function run() {
             stdio: 'inherit'
           })
           publishResults.push({ functionName, success: true })
-          console.log(pc.green('✓') + pc.dim(` @fun-demo/${hyphName} published successfully!`))
+          console.log(pc.green('✓') + pc.dim(` @zedom/${hyphName} published successfully!`))
         } catch (error) {
           publishResults.push({ functionName, success: false, error: error.message })
-          console.log(pc.red('✗') + pc.dim(` Failed to publish @fun-demo/${hyphName}: ${error.message}`))
+          console.log(pc.red('✗') + pc.dim(` Failed to publish @zedom/${hyphName}: ${error.message}`))
         }
       } else {
         console.log(pc.yellow('(!)') + pc.dim(` Package not found for ${functionName}: ${packageJsonPath}`))

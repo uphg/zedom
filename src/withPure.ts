@@ -1,4 +1,4 @@
-import { forEachEntry } from 'unfunt'
+import { forEachEntry } from './internal/forEachEntry'
 
 export function withPure<T extends object>(data?: T): T extends undefined ? {} : { [K in keyof T]: T[K] } {
   const result = Object.create(null) as { [K in keyof T]: T[K] }

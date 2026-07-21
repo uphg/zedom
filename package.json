@@ -7,18 +7,22 @@
   "keywords": [
     "javascript",
     "typescript",
-    "math",
+    "dom",
+    "events",
     "utils",
     "utility",
-    "functions",
     "library",
     "tools"
   ],
-  "homepage": "https://github.com/your-username/fun-demo#readme",
-  "repository": "your-username/fun-demo",
-  "bugs": "https://github.com/your-username/fun-demo/issues",
+  "homepage": "https://github.com/xypur/zedom#readme",
+  "repository": "xypur/zedom",
+  "bugs": "https://github.com/xypur/zedom/issues",
   "author": "Your Name <your.email@example.com>",
   "license": "MIT",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18"
+  },
   "main": "dist/index.umd.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -32,6 +36,8 @@
     "build:packages": "node scripts/build-package.js",
     "test": "vitest",
     "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit",
     "lint": "eslint . --fix",
     "lint:check": "eslint .",
     "prepare": "simple-git-hooks",
@@ -45,7 +51,10 @@
     "publish-packages": "node scripts/publish-packages.js",
     "release": "node scripts/release.js",
     "release:dry": "node scripts/release.js --dry",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "devDependencies": {
     "@eslint/js": "^9.31.0",
@@ -54,13 +63,14 @@
     "@types/minimist": "1.2.5",
     "@types/node": "24.0.15",
     "@types/semver": "^7.7.0",
-    "@typescript-eslint/eslint-plugin": "8.37.0",
-    "@typescript-eslint/parser": "8.37.0",
+    "@typescript-eslint/eslint-plugin": "^8.37.0",
+    "@typescript-eslint/parser": "^8.37.0",
     "conventional-changelog-cli": "^5.0.0",
     "enquirer": "^2.4.1",
-    "eslint": "9.31.0",
+    "eslint": "^9.31.0",
     "execa": "9.6.0",
     "fs-extra": "11.3.0",
+    "jsdom": "^29.1.1",
     "lint-staged": "^16.1.2",
     "minimist": "1.2.8",
     "picocolors": "^1.1.1",
@@ -69,6 +79,7 @@
     "tsdown": "^0.15.12",
     "tslib": "2.8.1",
     "typescript": "5.8.3",
+    "vitepress": "^1.6.4",
     "vitest": "^3.2.4"
   },
   "simple-git-hooks": {
@@ -78,8 +89,5 @@
     "*.{js,ts}": [
       "eslint --fix"
     ]
-  },
-  "dependencies": {
-    "unfunt": "0.2.0-alpha.4"
   }
 }

@@ -2,10 +2,12 @@ import { isClient } from './env'
 
 let scrollbarWidth: number | null = null
 let _devicePixelRatio: number | null = null
+let _resizeRegistered = false
 
-if (isClient) {
+function registerResizeListener(): void {
+  if (_resizeRegistered) return
+  _resizeRegistered = true
   window.addEventListener('resize', () => {
-    // Page zoom
     if (_devicePixelRatio !== window.devicePixelRatio) {
       _devicePixelRatio = window.devicePixelRatio
       scrollbarWidth = null
@@ -18,6 +20,10 @@ export function getScrollbarWidth() {
     if (typeof document === 'undefined') {
       scrollbarWidth = 0
       return scrollbarWidth
+    }
+
+    if (isClient) {
+      registerResizeListener()
     }
 
     const div = document.createElement('div')
